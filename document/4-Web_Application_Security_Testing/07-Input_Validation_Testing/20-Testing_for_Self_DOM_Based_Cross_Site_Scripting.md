@@ -6,9 +6,9 @@
 
 ## Summary
 
-A Self DOM-Based Cross-Site Scripting is a specific attack and needs prior knowledge of DOM-Based cross site scripting and successful social engineering. The term 'self' is a reference here to the fact, that the user needs to put the payload himself into the input field, and thus execute the vulnerability himself. The vulnerability is further specific, as the website's Content Security Policy (CSP) can block the execution of scripts.
+Self DOM-Based Cross-Site Scripting is a specific attack and needs prior knowledge of DOM-Based cross site scripting and successful social engineering. The term 'self' is a reference here to the fact, that the user needs to inject the payload into the input field, and thus execute the vulnerability themselves. The vulnerability is further specific, as the website's Content Security Policy (CSP) can block the execution of scripts.
 
-We will use the term sink in the following. In computing, a sink, event sink or data sink is a class or function designed to receive incoming events from another object or function. Thus in order to find possible vulnerabilities we first need to identify the sinks of the application we want to test.
+This scenario will use the term "sink" in the following manner: In computing, a sink, event sink or data sink is a class or function designed to receive input or events from another object or function. Thus in order to find possible vulnerabilities we first need to identify the sinks of the application we want to test.
 
 ## How to Test
 
@@ -40,13 +40,13 @@ $('form').submit(function() {
 });
 ```
 
-In the following the execution of the code will be explained and the implications for the security of the code are shown.
+Abuse of this functionality can be described as follows:
 
 1. The `submit` event handler passes the current value of any `textarea` elements to the `strip` function.
 2. This function creates a new `div` element and sets the `innerHTML` property to the provided value.
 3. In the last step it then returns the `textContent` property of the resulting `div`.
 
- This type of code is typically used to remove HTML tags from a string, as the `textContent` property contains the String which was rendered by the browser when the HTML was parsed. This particular method is inherently insecure because it uses `innerHTML`. When user input is provided to the `innerHTML` property, it is parsed by the web browser and can therefore lead to the execution of malicious JavaScript.
+ This type of code is typically used to remove HTML tags from a string, as the `textContent` property contains the string which was rendered by the browser when the HTML was parsed. This particular method is inherently insecure because it uses `innerHTML`. When user input is provided to the `innerHTML` property, it is parsed by the web browser and can therefore lead to the execution of malicious JavaScript.
 
 The following payload can be used to test the vulnerability.`<img src=x onerror=alert(1) />`
 
